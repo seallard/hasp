@@ -1,6 +1,6 @@
 # hasp
 A Haskell program that builds phylogenetic trees from DNA sequences using progressive alignment and UPGMA clustering.
-Developed with Ivar Mira and Alfred Nilsson as a project in a course (Program Design and Data Structures).
+Originally developed with Ivar Mira and Alfred Nilsson as a project in a course (Program Design and Data Structures).
 
 ## Todo
 * Fix buggy traceback
