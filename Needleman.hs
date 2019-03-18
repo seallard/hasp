@@ -110,11 +110,7 @@ alignSeqs inseqs outseqs i = zipWith (++) [[inseq!!i] | inseq <- inseqs] outseqs
  -           insertGaps ["te","he", "ha"] = ["-te","-he","-ha"]
  -}
 insertGaps :: [String] -> [String]
-insertGaps outseqs = insertGapsAux outseqs []
-
-insertGapsAux :: [String] -> [String] -> [String]
-insertGapsAux [] new_out = new_out
-insertGapsAux (outseq:outseqs) new_out = insertGapsAux outseqs (["-" ++ outseq] ++ new_out)
+insertGaps outseqs = ["-" ++ outseq | outseq <- outseqs]
 
 
 ------------ Functions to inspect matrices ------------
