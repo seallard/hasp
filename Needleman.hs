@@ -75,8 +75,8 @@ traceBack seqsA seqsB = traceAux seqsA i seqsB j m outA outB where
     m = scoringMatrix seqsA seqsB
     i = length (seqsA!!0)
     j = length (seqsB!!0)
-    outA = ["" | x <- [1..i]]
-    outB = ["" | y <- [1..j]]
+    outA = ["" | x <- [1..(length seqsA)]]
+    outB = ["" | y <- [1..(length seqsB)]]
 
 
 {- traceAux a i b j matrix x y
