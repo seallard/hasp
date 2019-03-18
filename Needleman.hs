@@ -89,8 +89,7 @@ traceAux _ 0 _ 0 _ outA outB = outA ++ outB
 traceAux seqsA i seqsB j m outA outB
     | i > 0 && j > 0 && m!(i,j) == m!(i-1,j-1) + (sumPairScore seqsA (i-1) seqsB (j-1)) = traceAux seqsA (i-1) seqsB (j-1) m (alignSeqs seqsA outA (i-1)) (alignSeqs seqsB outB (j-1))
     | i > 0 && m!(i,j) == m!(i-1,j) + (fromIntegral gap) = traceAux seqsA (i-1) seqsB j m (alignSeqs seqsA outA (i-1)) (insertGaps outB)
-    | j > 0 = traceAux seqsA i seqsB (j-1) m (insertGaps outA) (alignSeqs seqsB outB (j-1))
-    | otherwise = ["fked"]
+    | otherwise = traceAux seqsA i seqsB (j-1) m (insertGaps outA) (alignSeqs seqsB outB (j-1))
 
 
 {- alignSeqs inseqs outseqs i
@@ -98,21 +97,10 @@ traceAux seqsA i seqsB j m outA outB
  - PRE: inseqs and outseqs are non-empty and of equal length. 
  - RETURNS: symbols at position i in inseqs aligned in outseqs.
  - EXAMPLES: alignSeqs ["aww","aww"] ["",""] 0 = ["a","a"]
- -           alignSeqs ["se", "hos", "de"]  ["nel","est","or"] 0 =  ["snel","hest","dor"]
+ -           alignSeqs ["ses", "hos", "des"]  ["nel","est","oor"] 0 =  ["snel","hest","door"]
  -}
 alignSeqs :: [String] -> [String] -> Int -> [String]
-alignSeqs inseqs outseqs i = alignSeqsAux inseqs outseqs i []
-
-
-{- alignSeqsAux inseqs outseqs i new_outseqs
- - Add aligned symbols to alignment being generated.
- - RETURNS: symbols at position i in inseqs aligned in new_outseqs.
- - EXAMPLES: alignSeqsAux ["aww","aww"] ["",""] 0 [] = ["a","a"]
- -           alignSeqsAux ["test", "test", "test"]  ["EST","EST","EST"] 0 [] =  ["tEST", "tEST", "tEST"]
- -}
-alignSeqsAux :: [String] -> [String] -> Int -> [String] -> [String]
-alignSeqsAux [] _ _ new_out = new_out
-alignSeqsAux (inseq:inseqs) (outseq:outseqs) i new_out = alignSeqsAux inseqs outseqs i (new_out++[[(inseq!!i)] ++ outseq])
+alignSeqs inseqs outseqs i = zipWith (++) [[inseq!!i] | inseq <- inseqs] outseqs
 
 
 {- insertGaps outseqs
