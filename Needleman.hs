@@ -97,7 +97,7 @@ traceAux seqsA i seqsB j m outA outB
  - PRE: inseqs and outseqs are non-empty and of equal length. 
  - RETURNS: symbols at position i in inseqs aligned in outseqs.
  - EXAMPLES: alignSeqs ["aww","aww"] ["",""] 0 = ["a","a"]
- -           alignSeqs ["ses", "hos", "des"]  ["nel","est","oor"] 0 =  ["snel","hest","door"]
+ -           alignSeqs ["ses", "hos", "des"]  ["nel","est","or-"] 0 =  ["snel","hest","dor-"]
  -}
 alignSeqs :: [String] -> [String] -> Int -> [String]
 alignSeqs inseqs outseqs i = zipWith (++) [[inseq!!i] | inseq <- inseqs] outseqs
