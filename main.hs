@@ -10,13 +10,13 @@ import qualified Data.Map as Map
    RETURN: Newick format of phylogenetic tree from sequences.
  -}
 treeBuilder :: [String] -> String
-treeBuilder seqs = newickFormat (phylo_tree!!0) where
+treeBuilder seqs = newickFormat phylo_tree where
     
     -- Create guide tree by clustering sequences based on k-mer distance matrix.
     guide_tree = upgmaClustering seqs False
     
     -- Traverse guide tree and apply NWA to generate MSA. 
-    msa = treeTraversal (guide_tree!!0)
+    msa = treeTraversal guide_tree
 
     -- Create phylogenetic tree by clustering sequences in MSA with Jukes-Cantor distance measure. 
     phylo_tree = upgmaClustering msa True

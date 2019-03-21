@@ -19,7 +19,7 @@ data UPGMATree = Leaf String Double | Node (UPGMATree) [String] Double (UPGMATre
    and recalculation of the distance matrix from these clusters).
    RETURNS: UPGMATree with each sequence present in seqs stored in leafs. 
 -}
-upgmaClustering :: [String] -> Bool -> [UPGMATree]
+upgmaClustering :: [String] -> Bool -> UPGMATree
 upgmaClustering sequences final = upgmaClusteringAux clusters trees final where
     clusters = initialClusters sequences
     trees = initialTrees sequences
@@ -30,8 +30,8 @@ upgmaClustering sequences final = upgmaClusteringAux clusters trees final where
    RETURNS: List of all new UPGMA trees.
    VARIANT: (length (tail clusters))
  -}
-upgmaClusteringAux :: [[String]] -> [UPGMATree] -> Bool -> [UPGMATree] 
-upgmaClusteringAux (cluster:[]) trees final = trees
+upgmaClusteringAux :: [[String]] -> [UPGMATree] -> Bool -> UPGMATree
+upgmaClusteringAux (cluster:[]) trees final = trees!!0
 upgmaClusteringAux clusters trees final = upgmaClusteringAux new_clusters new_trees final where
     distance_matrix = clusterDistanceMatrix clusters final -- Calculate distance matrix.
     index = fst (minDistance distance_matrix)              -- Find index of closest clusters.
