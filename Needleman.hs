@@ -15,22 +15,22 @@ gap = -1
 {- scoringMatrix string1 string2
    Creates matrix of partial alignment scores for two strings with Needleman-Wunsch.
    RETURNS: Array of size (length string1 * length string2).
-   Disclaimer: The general structure of the function was obtained from 
+   Disclaimer: The general structure of the function was obtained from
                http://jelv.is/blog/Lazy-Dynamic-Programming/
 -}
 scoringMatrix :: [String] -> [String] -> Matrix
 scoringMatrix seqsA seqsB = matrix where
     m = length (seqsA!!0)
     n = length (seqsB!!0)
-    
+
     score :: Int -> Int -> Double
     score 0 0 = 0
     score i 0 = (fromIntegral i)*(fromIntegral gap)
-    score 0 j = (fromIntegral j)*(fromIntegral gap) 
+    score 0 j = (fromIntegral j)*(fromIntegral gap)
 
     score i j = maximum [(matrix ! (i-1, j-1)) + sumPairScore seqsA (i-1) seqsB (j-1),
-                         (matrix ! (i, j-1)) + (fromIntegral gap), -- Cost of gaps in seqsB 
-                         (matrix ! (i-1, j)) + (fromIntegral gap)] -- Cost of gaps in seqsA 
+                         (matrix ! (i, j-1)) + (fromIntegral gap), -- Cost of gaps in seqsB
+                         (matrix ! (i-1, j)) + (fromIntegral gap)] -- Cost of gaps in seqsA
 
     matrix = array ((0,0),(m,n)) [((x,y), score x y) | x<-[0..m], y<-[0..n]]
 
@@ -66,9 +66,9 @@ spAux a posA b posB
 
 {- traceBack sequencesA sequencesB
    Finds the sequence of operations for the best path through the score matrix.
-   PRE: seqsA and seqsB are either single sequences or multiple alignments 
-        (so all strings in seqA and seqB will be of the same length).   
-   RETURNS: Alignment of sequencesA and sequencesB (can be alignments or single sequences). 
+   PRE: seqsA and seqsB are either single sequences or multiple alignments
+        (so all strings in seqA and seqB will be of the same length).
+   RETURNS: Alignment of sequencesA and sequencesB (can be alignments or single sequences).
 -}
 traceBack :: [String] -> [String] -> [String]
 traceBack seqsA seqsB = traceAux seqsA i seqsB j m outA outB where
@@ -94,7 +94,7 @@ traceAux seqsA i seqsB j m outA outB
 
 {- alignSeqs inseqs outseqs i
  - Add aligned symbols to alignment being generated.
- - PRE: inseqs and outseqs are non-empty and of equal length. 
+ - PRE: inseqs and outseqs are non-empty and of equal length.
  - RETURNS: symbols at position i in inseqs aligned in outseqs.
  - EXAMPLES: alignSeqs ["aww","aww"] ["",""] 0 = ["a","a"]
  -           alignSeqs ["ses", "hos", "des"]  ["nel","est","or-"] 0 =  ["snel","hest","dor-"]
@@ -118,7 +118,7 @@ printMatrix :: PrintfArg a => Array (Int,Int) a -> IO ()
 printMatrix matrix = printMatrixAux matrix 0 0
 
 printMatrixAux :: PrintfArg a => Array (Int,Int) a -> Int -> Int -> IO()
-printMatrixAux matrix x y 
+printMatrixAux matrix x y
   | x /= m = do printf "%7.3f" (matrix ! (x,y))
                 printMatrixAux matrix (x+1) y
   | y < n = do printf "%7.3f\n" (matrix ! (x,y))

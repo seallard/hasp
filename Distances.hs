@@ -18,7 +18,7 @@ naiveDistance x y = mismatches/aligned where
     aligned    = fromIntegral (length x)
 
 {- misMatches a b diff
-   Find number of differing sites in two strings. 
+   Find number of differing sites in two strings.
    RETURNS: the number of mismatches between a and b, returned in diff.
    EXAMPLES: misMatches "abc" "def" 0 = 3
              misMatches "abc-" "abcd" 0 = 1
@@ -54,7 +54,7 @@ msaDistance msa = matrix where
 {- kmerDistance sequenceA sequenceB
 Calculates distance as the fraction of words that are unique to either sequence.
 PRE: Neither sequence is shorter than k (default k=3).
-RETURNS: k-mer distance between sequenceA and sequenceB. 
+RETURNS: k-mer distance between sequenceA and sequenceB.
 EXAMPLES: kmerDistance "GATTACA" "TAGAT" = 6/7
 -}
 kmerDistance :: Fractional a => String -> String -> a
@@ -67,20 +67,20 @@ kmerDistance a b = unique/total where
 
     uniqueY = (map f y) where
         f k = (elem k x)
-    
+
     unique = fromIntegral (length (filter (==False) (uniqueX++uniqueY)))
     total = fromIntegral (length (Set.fromList (x++y)))
-        
 
-{- wordComposition sequence k overlap 
-   Find all sequential k-mer words of a sequence, option for overlapping or not. 
+
+{- wordComposition sequence k overlap
+   Find all sequential k-mer words of a sequence, option for overlapping or not.
    PRE: k > 0.
-   RETURNS: all words of length k from sequence, overlapping if overlap is True. 
+   RETURNS: all words of length k from sequence, overlapping if overlap is True.
    EXAMPLES: wordComposition "EXAMPLE" 3 False = ["EXA","MPL"]
              wordComposition "EXAMPLE" 3 True = ["EXA","XAM","AMP","MPL","PLE"]
    VARIANT: (length seq) - k + 1
  -}
-wordComposition :: String -> Int -> Bool -> [String] 
+wordComposition :: String -> Int -> Bool -> [String]
 wordComposition seq k overlap
     | length seq < k = []
     | overlap == True = (take k seq):(wordComposition (drop 1 seq) k overlap)

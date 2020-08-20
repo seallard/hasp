@@ -1,7 +1,7 @@
 import Test.HUnit
 import Data.Array
 
-import Needleman 
+import Needleman
 import ProgressiveAlignment
 import Distances
 import UPGMA

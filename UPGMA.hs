@@ -15,16 +15,16 @@ data UPGMATree = Leaf String Double | Node (UPGMATree) [String] Double (UPGMATre
 
 
 {- upgmaClustering seqs
-   Performs UPGMA clustering on sequences (recursively merging of clusters in cluster list 
+   Performs UPGMA clustering on sequences (recursively merging of clusters in cluster list
    and recalculation of the distance matrix from these clusters).
-   RETURNS: UPGMATree with each sequence present in seqs stored in leafs. 
+   RETURNS: UPGMATree with each sequence present in seqs stored in leafs.
 -}
 upgmaClustering :: [String] -> Bool -> UPGMATree
 upgmaClustering sequences final = upgmaClusteringAux clusters trees final where
     clusters = initialClusters sequences
     trees = initialTrees sequences
- 
- 
+
+
 {- upgmaClusteringAux clusters trees
    Update clusters and trees based on new distance matrix.
    RETURNS: List of all new UPGMA trees.
@@ -46,17 +46,17 @@ upgmaClusteringAux clusters trees final = upgmaClusteringAux new_clusters new_tr
 initialClusters :: [String] -> [[String]]
 initialClusters sequences = [[x] | x <- sequences]
 
- 
-{- initialTrees seqs 
+
+{- initialTrees seqs
    Create initital list of trees from sequences.
-   RETURNS: list of Leafs containing each sequence from seqs and 0.0. 
-   EXAMPLES: 
+   RETURNS: list of Leafs containing each sequence from seqs and 0.0.
+   EXAMPLES:
  -}
 initialTrees :: [String] -> [UPGMATree]
 initialTrees sequences = [Leaf x 0.0 | x <- sequences]
 
 
-{- clusterDistanceMatrix clusters 
+{- clusterDistanceMatrix clusters
    Create distance matrix from clusters.
    PRE: clusters is non-empty and contain no empty string.
    RETURNS: a distance matrix of the clusters.
@@ -68,10 +68,10 @@ clusterDistanceMatrix clusters final = matrix where
 
 
 {- clusterDistance clusterA clusterB final
-   Calculates the mean distance between elements of each cluster. 
+   Calculates the mean distance between elements of each cluster.
    Uses Jukes as distance measure instead of kmer if final is true.
    PRE: clusterA or clusterB is non-empty.
-   RETURNS: mean k-mer distance between clusterA and clusterB. 
+   RETURNS: mean k-mer distance between clusterA and clusterB.
    EXAMPLES: clusterDistance ["tes"] ["tis"] = 1.0
              clusterDistance ["tes","tis"] ["tas"] = (1.0 + 1.0)/2 = 1.0
              clusterDistance ["tes","tis"] ["tas","tos"] = (1.0 + 1.0 + 1.0 + 1.0)/4 = 1.0
@@ -94,10 +94,10 @@ clusterDistance clusterA clusterB True = pair_distances/num_distances where
  -}
 minDistance :: Array (Int, Int) Double -> ((Int, Int), Double)
 minDistance m = foldl1 cmp (assocs m)
- 
- 
+
+
 {- cmp coord_and_val_1 coord_and_val_2
-   Determine which of two places of matrix contain smaller value. 
+   Determine which of two places of matrix contain smaller value.
    RETURNS: the coordinates of coord_and_val_1 or coord_and_val_2 containing the smallest value.
 -}
 cmp :: ((Int, Int), Double) -> ((Int, Int), Double) -> ((Int, Int), Double)
@@ -114,18 +114,18 @@ cmp (c1, v1) (c2, v2)
 
 {- updateClusters clusters min_coordinates
    Removes closest clusters and adds them as a single cluster.
-   RETURNS: clusters with with the two clusters at min_coordinates merged. 
+   RETURNS: clusters with with the two clusters at min_coordinates merged.
  -}
 updateClusters :: [[String]] -> (Int, Int) -> [[String]]
 updateClusters clusters (i,j) = merged_clusters ++ filtered_clusters where
     merged_clusters = [clusters!!i ++ clusters!!j]
     filtered_clusters = [clusters!!x| x <- [0..((length clusters) -1)], x /= i && x /=j]
 
-     
+
 {- updateTrees trees (i,j) h
    Merge trees corresponding to closest clusters and remove the previously unmerged trees.
-   PRE: (i,j) contains two valid indices of trees. 
-   RETURNS: updated trees with trees previously at position i and j merged and 
+   PRE: (i,j) contains two valid indices of trees.
+   RETURNS: updated trees with trees previously at position i and j merged and
             added to end of trees with height calculated from h.
  -}
 updateTrees :: [UPGMATree] -> (Int, Int) -> Double -> [UPGMATree]
@@ -137,7 +137,7 @@ updateTrees trees (i,j) distance = merged_trees ++ filtered_trees where
 
 {- extractHeight tree
    Get height stored in root of tree.
-   RETURNS: height of tree. 
+   RETURNS: height of tree.
  -}
 extractHeight :: UPGMATree -> Double
 extractHeight (Node _ _ height _) = height
