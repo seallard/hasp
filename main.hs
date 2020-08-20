@@ -1,3 +1,5 @@
+module Main where
+
 import Needleman 
 import ProgressiveAlignment
 import Distances
@@ -20,3 +22,7 @@ treeBuilder seqs = newickFormat phylo_tree where
 
     -- Create phylogenetic tree by clustering sequences in MSA with Jukes-Cantor distance measure. 
     phylo_tree = upgmaClustering msa True
+
+
+main = do
+    print (treeBuilder sequences)

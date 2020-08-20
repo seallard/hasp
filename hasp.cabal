@@ -1,0 +1,43 @@
+cabal-version:       >=1.10
+name:                hasp
+version:             0.1.0
+synopsis:            Generate phylogenetic trees in Newick format.
+description:         Hasp generates a multiple sequence alignment of all sequences using progressive alignment and clusters them with UPGMA using Jukes-Cantor distances.
+
+-- URL for the project homepage or repository.
+homepage:            https://github.com/seallard/hasp
+bug-reports:         https://github.com/seallard/hasp/issues
+license:             MIT
+license-file:        LICENSE
+author:              Sebastian Allard
+maintainer:          sebastian@seallard.dev
+category:            Bioinformatics
+build-type:          Simple
+extra-source-files:  CHANGELOG.md, README.md
+
+
+executable hasp
+  -- .hs or .lhs file containing the Main module.
+  main-is:             Main.hs
+
+  -- Modules included in this executable, other than Main.
+  other-modules:       Distances,
+                       Needleman,
+                       ProgressiveAlignment,
+                       UPGMA
+
+  -- LANGUAGE extensions used by modules in this package.
+  -- other-extensions:
+
+  -- Other library packages from which modules are imported.
+  build-depends:       base >=4.14 && <4.15,
+                       HUnit >= 1.6.0,
+                       array >= 0.5.4,
+                       containers >= 0.6.2
+
+  -- Directories containing source files.
+  -- hs-source-dirs:
+
+  -- Base language which the package is written in.
+  default-language:    Haskell2010
+
